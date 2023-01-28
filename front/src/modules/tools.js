@@ -15,13 +15,38 @@ export const setTitleImgThunk = createAsyncThunk(
 
 const toolsSlice = createSlice({
   name: "tools",
-  initialState: { sideWidth: 200, titleImg: "" },
+  initialState: {
+    sideWidth: 200,
+    titleImg: "",
+    mainView: "AboutMe",
+    mainViewArray: [
+      "AboutMe",
+      "Languages/CSS",
+      "Languages/Javascript",
+      "Languages/React",
+      "Projects",
+      "hi",
+      "hi",
+      "hi",
+    ],
+  },
   reducers: {
     setSideWidth: (state, action) => {
       return { ...state, sideWidth: action.payload };
     },
     setTitleImg: (state, action) => {
       return { ...state, titleImg: action.payload };
+    },
+    setMainViewArray: (state, action) => {
+      if (state.mainViewArray.includes(action.payload)) return state;
+      else {
+        const tempArray = [...state.mainViewArray];
+        tempArray.push(action.payload);
+        return { ...state, mainViewArray: tempArray };
+      }
+    },
+    setMainView: (state, action) => {
+      return { ...state, mainView: action.payload };
     },
   },
   extraReducers: (builder) => {

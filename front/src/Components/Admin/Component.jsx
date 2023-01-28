@@ -9,8 +9,7 @@ const AdminComponent = ({ exitBtnOnClick }) => {
           exitBtnOnClick(e);
         }}
       >
-        <span>나가자</span>
-        <img src="/RankSystem.gif" />
+        <span>나가자 </span>
         <img src="/img/rightExit.svg" alt="" />
       </ExitBtnBox>
       <UploadBox>
@@ -32,6 +31,7 @@ const ExitBtnBox = styled.div`
   display: flex;
   right: 20px;
   top: 20px;
+  cursor: pointer;
   img {
     width: 25px;
   }

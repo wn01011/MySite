@@ -6,4 +6,7 @@ const HeadNavComponent = () => {
 
 export default HeadNavComponent;
 
-const HeadNavBox = styled.div``;
+const HeadNavBox = styled.div`
+  width: 100%;
+  height: 150px;
+`;

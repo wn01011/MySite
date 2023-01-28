@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import SideBarComponent from "./Component";
 import AdminPopUpContainer from "./AdminPopUp/Container";
@@ -31,7 +31,6 @@ const SideBarContainer = ({ sideWidth, setSideWidth }) => {
         sideWidth={sideWidth}
         sideBtnOnClick={sideBtnOnClick}
         adminPasswordOnClick={adminPasswordOnClick}
-        // titleImg={titleImg}
         titleImg={curTitle}
       />
       {adminPasswordOn ? (
