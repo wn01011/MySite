@@ -2,6 +2,7 @@ import styled from "styled-components";
 import HeadNavContainer from "./HeadNav/Container";
 import { useDispatch } from "react-redux";
 import CardContainer from "../Card/Container";
+import FindMiddleContainer from "./Projects/FindMiddle/Container";
 
 const MainComponent = ({ sideWidth, mainView, route }) => {
   const curMainView = route.text ? route.text : route.title;
@@ -18,6 +19,8 @@ const MainComponent = ({ sideWidth, mainView, route }) => {
           return <CardContainer title={"React"} />;
         case "Projects":
           return <CardContainer title={"Projects"} />;
+        case "FindMiddle":
+          return <FindMiddleContainer />;
         default:
           return <CardContainer title={"AboutMe"} />;
       }

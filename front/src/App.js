@@ -17,22 +17,36 @@ import AdminContainer from "./Components/Admin/Container";
 
 import ScrollEvent from "./utils/scrollevent.jsx";
 import WheelEvent from "./utils/wheelevent";
+import CursorEvent from "./utils/cursorevent";
 
 function App() {
   const [sideWidth, setSideWidth] = useState(200);
   const [scrollDir, setScrollDir] = useState("scrolling down");
   const topRef = useRef();
   const bottomRef = useRef();
+  const cursorType = useSelector((state) => state.tools.cursor);
 
-  axios.get("/api").then((data) => {
-    // console.log(data);
-  });
+  // axios.get("/api").then((data) => {
+  //   // console.log(data);
+  // });
+
+  // useEffect(() => {
+  //   let cursorId = setInterval(() => {
+  //     setCursorIdx((state) => {
+  //       return (state % 14) + 1;
+  //     });
+  //   }, 100);
+  //   return () => {
+  //     clearInterval(cursorId);
+  //   };
+  // }, []);
 
   return (
     <BrowserRouter>
       <AppBox className="App" ref={topRef}>
         <ScrollEvent scrollDir={scrollDir} setScrollDir={setScrollDir} />
         <WheelEvent bottomRef={bottomRef} topRef={topRef} />
+        <CursorEvent cursorType={cursorType} />
         <SideBarContainer setSideWidth={setSideWidth} sideWidth={sideWidth} />
         <Routes>
           <Route
@@ -81,6 +95,12 @@ const AppBox = styled.div`
     background-size: cover;
     z-index: -100;
   }
+
+  /* cursor: url(${({ cursor }) =>
+    "/img/normal/cursor" + cursor + ".png"}) 14 14,
+    url("/img/normal/cursor5.png") 14 14, auto; */
+  /* cursor: url("/img/special/ezgif.com-gif-maker.gif"), auto; */
+  cursor: none;
 `;
 
 const BottomBox = styled.div`

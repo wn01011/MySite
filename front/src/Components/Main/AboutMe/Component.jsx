@@ -56,7 +56,6 @@ export default AboutMeComponent;
 
 const AboutMeComponentBox = styled.div`
   width: "800px";
-  cursor: url("/img/normal/cursor1.svg"), auto;
 `;
 
 const IntroBox = styled.div`
@@ -113,6 +112,7 @@ const DetailBox = styled.div`
     font-size: 1.5rem;
     text-decoration: none;
     color: #aacb73;
+    cursor: none;
   }
 `;
 

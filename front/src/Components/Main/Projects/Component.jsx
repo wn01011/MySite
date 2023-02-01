@@ -1,7 +1,18 @@
-import CardContainer from "../../Card/Container";
+import styled from "styled-components";
+
+import InnerCardContainer from "../../Card/InnerCard/Container";
 
 const ProjectsComponent = () => {
-  return <div>Projects니다</div>;
+  return (
+    <ProjectsComponentBox>
+      <InnerCardContainer></InnerCardContainer>
+    </ProjectsComponentBox>
+  );
 };
 
 export default ProjectsComponent;
+
+const ProjectsComponentBox = styled.div`
+  display: flex;
+  justify-content: center;
+`;

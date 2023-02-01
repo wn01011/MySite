@@ -16,6 +16,7 @@ export const setTitleImgThunk = createAsyncThunk(
 const toolsSlice = createSlice({
   name: "tools",
   initialState: {
+    cursor: "normal",
     sideWidth: 200,
     titleImg: "",
     mainView: "AboutMe",
@@ -47,6 +48,9 @@ const toolsSlice = createSlice({
     },
     setMainView: (state, action) => {
       return { ...state, mainView: action.payload };
+    },
+    setCursor: (state, action) => {
+      return { ...state, cursor: action.payload };
     },
   },
   extraReducers: (builder) => {

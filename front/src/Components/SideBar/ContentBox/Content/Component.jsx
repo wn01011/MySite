@@ -1,5 +1,6 @@
+import { useDispatch } from "react-redux";
 import styled from "styled-components";
-
+import { action } from "../../../../modules/tools";
 const ContentComponent = ({
   title,
   text,
@@ -9,6 +10,8 @@ const ContentComponent = ({
   sideWidth,
   mainView,
 }) => {
+  const dispatch = useDispatch();
+
   return (
     <ContentBox
       className="box"
@@ -16,6 +19,12 @@ const ContentComponent = ({
         if (sideWidth < 200) return;
         foldClick(e);
         titleClick(e);
+      }}
+      onMouseEnter={() => {
+        dispatch(action.setCursor("special"));
+      }}
+      onMouseLeave={() => {
+        dispatch(action.setCursor("normal"));
       }}
       fold={fold}
       mainView={mainView}
@@ -55,7 +64,6 @@ const ContentBox = styled.div`
   justify-content: center;
   align-items: center;
   border-radius: 15px;
-  cursor: pointer;
   :hover {
     background-color: ${({ fold }) => (fold ? "#AACB73" : "#CDE990")};
     color: #ffffe8;
