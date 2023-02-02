@@ -9,6 +9,7 @@ const WheelEvent = ({ bottomRef, topRef }) => {
   const mainView = useSelector((state) => state.tools.mainView);
   const navigator = useNavigate();
   const dispatch = useDispatch();
+  const location = useLocation();
   let deltaY = 0;
   const SCROLLMAXCOUNT = 2;
   let scrollCount = 0;
@@ -49,6 +50,15 @@ const WheelEvent = ({ bottomRef, topRef }) => {
 
   useEffect(() => {
     window.onwheel = (e) => {
+      if (
+        location.pathname !== "/AboutMe" &&
+        location.pathname !== "/Languages/CSS" &&
+        location.pathname !== "/Languages/Javascript" &&
+        location.pathname !== "/Languages/React" &&
+        location.pathname !== "/Projects" &&
+        location.pathname !== "/hi"
+      )
+        return;
       throttledScroll(e);
     };
     // const tempWheelEvent = (e) => {

@@ -115,6 +115,7 @@ const InnerCardComponent = ({
             >
               {"깃허브 링크"}
             </a>
+            <img src="/img/icon/link.svg" alt="" />
             <Link to={"/FindMiddle"}>프로젝트 링크</Link>
           </GitAddressBox>
         </DetailBox>

@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import ContentComponent from "./Component";
 import { action } from "../../../../modules/tools.js";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 
 const ContentContainer = ({ title, text }) => {
@@ -11,6 +11,7 @@ const ContentContainer = ({ title, text }) => {
   const navigator = useNavigate();
   const dispatch = useDispatch();
   const sideWidth = useSelector((state) => state.tools.sideWidth);
+  const location = useLocation();
 
   useEffect(() => {
     if (mainView) {
@@ -19,6 +20,9 @@ const ContentContainer = ({ title, text }) => {
   }, [mainView]);
 
   const titleClick = (e) => {
+    if (location.pathname !== "/" + mainView) {
+      navigator("/" + e.target.innerText);
+    }
     if (!text) {
       dispatch(action.setMainView(e.target.innerText));
     }
