@@ -1,5 +1,4 @@
 import { createSlice, createAsyncThunk, current } from "@reduxjs/toolkit";
-import axios from "axios";
 
 export const setTitleImgThunk = createAsyncThunk(
   "/tools/setTitleImgThunk",
@@ -20,15 +19,18 @@ const toolsSlice = createSlice({
     sideWidth: 200,
     titleImg: "",
     mainView: "AboutMe",
+    canScroll: true,
+    audioVolume: 1,
+    inProject: false,
     mainViewArray: [
       "AboutMe",
+      "Projects",
+      "Blockchain",
+      "Unity",
+      "Game",
       "Languages/CSS",
       "Languages/Javascript",
       "Languages/React",
-      "Projects",
-      "hi",
-      "hi",
-      "hi",
     ],
   },
   reducers: {
@@ -51,6 +53,15 @@ const toolsSlice = createSlice({
     },
     setCursor: (state, action) => {
       return { ...state, cursor: action.payload };
+    },
+    setCanScroll: (state, action) => {
+      return { ...state, canScroll: action.payload };
+    },
+    setAudioVolume: (state, action) => {
+      return { ...state, audioVolume: action.payload };
+    },
+    setInProject: (state, action) => {
+      return { ...state, inProject: action.payload };
     },
   },
   extraReducers: (builder) => {

@@ -5,14 +5,14 @@ const ContentBoxComponent = () => {
   return (
     <ContentBoxComponentBox>
       <ContentContainer title={"AboutMe"}></ContentContainer>
+      <ContentContainer title={"Projects"}></ContentContainer>
+      <ContentContainer title={"Blockchain"}></ContentContainer>
+      <ContentContainer title={"Unity"}></ContentContainer>
+      <ContentContainer title={"Game"}></ContentContainer>
       <ContentContainer
         title={"Languages"}
         text={["CSS", "Javascript", "React"]}
       ></ContentContainer>
-      <ContentContainer title={"Projects"}></ContentContainer>
-      <ContentContainer></ContentContainer>
-      <ContentContainer></ContentContainer>
-      <ContentContainer></ContentContainer>
     </ContentBoxComponentBox>
   );
 };

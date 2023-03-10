@@ -1,6 +1,4 @@
-import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { action } from "../modules/tools";
+import { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 const CursorEvent = ({ cursorType }) => {
   let cursorUrl = "/img/normal/cursor.gif";
@@ -15,17 +13,32 @@ const CursorEvent = ({ cursorType }) => {
       cursorUrl = "/img/focus/focus1.png";
       break;
     default:
+      cursorUrl = "/img/normal/cursor.gif";
       break;
   }
 
-  const [position, setPosition] = useState({ x: 0, y: 0 });
+  const [scroll, setScroll] = useState(false);
+  const [lastScrollY, setLastScrollY] = useState(window.scrollY);
   const [clickedPos, setClickedPosition] = useState({ x: 0, y: 0 });
+  const [position, setPosition] = useState({
+    x: window.innerWidth / 2,
+    y: window.innerHeight / 2,
+  });
   const [clicked, setClicked] = useState(false);
+  const cursorRef = useRef(null);
+
   let clickedId;
+
   useEffect(() => {
-    window.onmousemove = (e) => {
-      setPosition({ x: e.pageX, y: e.pageY });
+    window.addEventListener("mousemove", onMouseMove);
+    window.addEventListener("scroll", onScroll);
+    return () => {
+      window.removeEventListener("mousemove", onMouseMove);
+      window.removeEventListener("scroll", onScroll);
     };
+  }, [position]);
+
+  useEffect(() => {
     window.onclick = (e) => {
       setClicked(true);
       setClickedPosition({ x: e.pageX, y: e.pageY });
@@ -34,69 +47,52 @@ const CursorEvent = ({ cursorType }) => {
       }, 350);
     };
   }, [clickedId]);
+
+  useEffect(() => {
+    cursorRef.current.style.left = `${position.x - 14}px`;
+    cursorRef.current.style.top = `${position.y - 14}px`;
+  }, [position]);
+
+  const onMouseMove = (e) => {
+    const { pageX: x, pageY: y } = e;
+    setPosition({ x: +x, y: +y });
+    // For smooth moving, when moving mouse, setPosition from scrolling could be denied.
+    window.removeEventListener("scroll", onScroll);
+  };
+
+  const onScroll = () => {
+    const difference = window.scrollY - lastScrollY;
+    setPosition({ x: position.x, y: position.y + difference });
+    setLastScrollY(window.scrollY);
+    setScroll((state) => !state);
+  };
+
   return (
-    <>
+    <div>
+      <style>
+        {`
+          .custom-cursor {
+            position:absolute;
+            width : 32px;
+            height : 32px;
+            pointer-events: none;
+            z-index: 10000000;
+          }
+        `}
+      </style>
       <ClickEffectBox
         position={clickedPos}
         clicked={clicked}
         className={clicked ? "clickEffect" : ""}
       ></ClickEffectBox>
-      <CursorBox position={position} cursorUrl={cursorUrl}>
-        <img src={cursorUrl} alt="" />
-      </CursorBox>
-      {/* <FollowCursorBox
-        position={position}
-        cursorUrl={cursorUrl}
-        cursorType={cursorType}
-      >
-        <img src={cursorUrl} alt="" />
-      </FollowCursorBox> */}
-    </>
+      <img ref={cursorRef} src={cursorUrl} alt="" className="custom-cursor" />
+    </div>
   );
 };
 
+export const onMouseEnter = CursorEvent.onMouseEnter;
+export const onMouseLeave = CursorEvent.onMouseLeave;
 export default CursorEvent;
-
-const CursorBox = styled.div.attrs(({ position }) => ({
-  style: {
-    left: position.x - 14 + "px",
-    top: position.y - 14 + "px",
-  },
-}))`
-  width: 30px;
-  height: 30px;
-  position: absolute;
-  z-index: 100000;
-  pointer-events: none;
-
-  img {
-    width: 100%;
-  }
-`;
-const FollowCursorBox = styled.div.attrs(({ position, cursorType }) => ({
-  style: {
-    left: position.x - 14 + "px",
-    top: position.y - 14 + "px",
-    display: cursorType == "normal" ? "inline" : "none",
-  },
-}))`
-  /* display: ${({ cursorType }) =>
-    cursorType == "normal" ? "inline" : "none"}; */
-  opacity: 0.5;
-  width: 30px;
-  height: 30px;
-  position: absolute;
-  z-index: 100000;
-  pointer-events: none;
-  /* left: ${({ position }) => position.x - 14 + "px"}; */
-  /* top: ${({ position }) => position.y - +14 + "px"}; */
-
-  img {
-    width: 100%;
-  }
-
-  transition: left ease-in-out 0.1s, top ease-in-out 0.1s;
-`;
 
 const ClickEffectBox = styled.div`
   display: ${({ clicked }) => (clicked ? "inline" : "none")};

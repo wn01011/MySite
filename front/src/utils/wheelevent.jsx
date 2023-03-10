@@ -7,6 +7,7 @@ import { action } from "../modules/tools";
 const WheelEvent = ({ bottomRef, topRef }) => {
   const mainViewArray = useSelector((state) => state.tools.mainViewArray);
   const mainView = useSelector((state) => state.tools.mainView);
+  const canScroll = useSelector((state) => state.tools.canScroll);
   const navigator = useNavigate();
   const dispatch = useDispatch();
   const location = useLocation();
@@ -16,6 +17,19 @@ const WheelEvent = ({ bottomRef, topRef }) => {
 
   const throttledScroll = useCallback(
     (e) => {
+      if (
+        (location.pathname !== "/AboutMe" &&
+          location.pathname !== "/Languages/CSS" &&
+          location.pathname !== "/Languages/Javascript" &&
+          location.pathname !== "/Languages/React" &&
+          location.pathname !== "/Projects" &&
+          location.pathname !== "/Blockchain" &&
+          location.pathname !== "/Unity" &&
+          location.pathname !== "/Game") ||
+        !canScroll
+      )
+        return;
+
       throttle((e) => {
         if (deltaY == window.scrollY) {
           scrollCount++;
@@ -28,7 +42,7 @@ const WheelEvent = ({ bottomRef, topRef }) => {
               });
               navigator(mainViewArray[curViewIdx - 1]);
               dispatch(action.setMainView(mainViewArray[curViewIdx - 1]));
-              bottomRef.current?.scrollIntoView({ behavior: "smooth" });
+              bottomRef.current?.scrollIntoView();
             } else if (e.deltaY > 0) {
               if (mainView == mainViewArray[mainViewArray.length - 1]) return;
               const curViewIdx = mainViewArray.findIndex((item) => {
@@ -36,7 +50,7 @@ const WheelEvent = ({ bottomRef, topRef }) => {
               });
               navigator(mainViewArray[curViewIdx + 1]);
               dispatch(action.setMainView(mainViewArray[curViewIdx + 1]));
-              topRef.current?.scrollIntoView({ behavior: "smooth" });
+              topRef.current?.scrollIntoView();
             }
           }
         } else {
@@ -45,20 +59,11 @@ const WheelEvent = ({ bottomRef, topRef }) => {
         deltaY = window.scrollY;
       }, 200)(e);
     },
-    [mainView]
+    [mainView, location, canScroll]
   );
 
   useEffect(() => {
     window.onwheel = (e) => {
-      if (
-        location.pathname !== "/AboutMe" &&
-        location.pathname !== "/Languages/CSS" &&
-        location.pathname !== "/Languages/Javascript" &&
-        location.pathname !== "/Languages/React" &&
-        location.pathname !== "/Projects" &&
-        location.pathname !== "/hi"
-      )
-        return;
       throttledScroll(e);
     };
     // const tempWheelEvent = (e) => {
